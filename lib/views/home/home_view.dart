@@ -1,3 +1,4 @@
+import 'package:blockchain_explorer/view_model/blockchain_viewmodel.dart';
 import 'package:blockchain_explorer/views/block_title_view/block_title_view.dart';
 import 'package:blockchain_explorer/views/widget/action_button/action_button.dart';
 import 'package:blockchain_explorer/views/widget/blockchain_list/blockchain_list.dart';
@@ -5,9 +6,22 @@ import 'package:blockchain_explorer/views/widget/centered_view/centered_view.dar
 import 'package:blockchain_explorer/views/widget/navigation_bar/navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+
+    Provider.of<BlockchainViewModel>(context, listen: false).getAllBlocks();
+  }
 
   @override
   Widget build(BuildContext context) {
