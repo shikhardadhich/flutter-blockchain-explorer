@@ -4,7 +4,7 @@ import 'package:blockchain_explorer/views/widget/action_button/action_button.dar
 import 'package:blockchain_explorer/views/widget/blockchain_list/blockchain_list.dart';
 import 'package:blockchain_explorer/views/widget/centered_view/centered_view.dart';
 import 'package:blockchain_explorer/views/widget/navigation_bar/navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +25,28 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    var _vmObj = Provider.of<BlockchainViewModel>(context);
+    final snackBar = SnackBar(
+        content: Row(
+      children: <Widget>[
+        new CircularProgressIndicator(),
+        new Text("  Loading...")
+      ],
+    ));
+    switch (_vmObj.loadingStatus) {
+      case LoadingStatus.completed:
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        break;
+      case LoadingStatus.error:
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        break;
+      case LoadingStatus.loading:
+        break;
+      case LoadingStatus.empty:
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        break;
+      default:
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: CenteredView(
@@ -64,7 +86,9 @@ class _HomeViewState extends State<HomeView> {
                           ActionButton(
                               title: 'Mine Block',
                               onPress: () {
-                                print("Button 2");
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                _vmObj.addBlock();
                               }),
                           ActionButton(
                               title: 'Transaction',
@@ -77,7 +101,7 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 )
               ],
-            ))
+            )),
           ],
         ),
       ),

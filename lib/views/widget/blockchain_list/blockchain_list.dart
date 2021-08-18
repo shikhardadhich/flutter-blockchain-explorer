@@ -16,7 +16,7 @@ class BlockchainListView extends StatelessWidget {
     switch (_blocchainObj.loadingStatus) {
       case LoadingStatus.loading:
         return Center(
-          child: Text("...."),
+          child: CircularProgressIndicator(),
         );
 
       case LoadingStatus.completed:
